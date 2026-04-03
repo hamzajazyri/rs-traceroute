@@ -1,5 +1,6 @@
 use traceroute::cli::parse_cli_args;
-use traceroute::icmp::ICMPPacket;
+use traceroute::icmp::ICMP;
+use traceroute::icmp2::ICMPPacket;
 use traceroute::socket::Socket;
 use traceroute::utils::resolve_domain;
 
@@ -21,17 +22,21 @@ fn main() {
         let mut socket = Socket::new(ip, &packet);
         socket.init_socket();
 
-        socket.set_ttl(100);
+        if let Some(max_hubs) = args.max_hubs() {
+            socket.set_ttl(max_hubs);
+        }
+
         socket.send_socket();
         let data: &[u8] = &socket.receive_socket();
+
         let packet: ICMPPacket = ICMPPacket::from_recv_packet(data);
         dbg!(&packet);
 
-        socket.set_ttl(2);
-        socket.send_socket();
-        let data: &[u8] = &socket.receive_socket();
-        let packet: ICMPPacket = ICMPPacket::from_recv_packet(data);
-        dbg!(&packet);
+        // socket.set_ttl(2);
+        // socket.send_socket();
+        // let data: &[u8] = &socket.receive_socket();
+        // let packet: ICMPPacket = ICMPPacket::from_recv_packet(data);
+        // dbg!(&packet);
     } else {
         panic!("cannot resolve IP");
     }

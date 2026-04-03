@@ -4,7 +4,7 @@ use libc::{
     AF_INET, IP_TTL, IPPROTO_ICMP, IPPROTO_IP, SOCK_RAW, sendto, setsockopt, sockaddr_in, socket,
 };
 
-use crate::{icmp::ICMPPacket, utils::ipv4_to_sockaddr_in};
+use crate::utils::ipv4_to_sockaddr_in;
 
 pub struct Socket<'a> {
     destination: Ipv4Addr,

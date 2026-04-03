@@ -128,9 +128,9 @@ impl fmt::Debug for ICMPPacket {
 
         for &b in &self.payload {
             if b.is_ascii_graphic() || b == b' ' {
-                write!(f, "{}", b as char);
+                let _ = write!(f, "{}", b as char);
             } else {
-                write!(f, "<*>");
+                let _ = write!(f, "<*>");
             }
         }
 
